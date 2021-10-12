@@ -5,6 +5,7 @@ Dial VideoCall library using OpenVidu on iOS
 ### Step 1. Add the Podspec to your Podfile
 Add this code below in your Podfile. Make sure you use the latest release version!
 ```ruby
+platform :ios, '12.1'       # Add this, note: Minimum target required is iOS 12.1
 source 'https://github.com/CocoaPods/Specs.git'   # Add this, note: Default CocoaPods Specs
 source 'https://github.com/ilhamchp/Dial-VideoCall-iOS-Specs.git'   # Add this, note: DialVideoCall Specs
 
@@ -199,3 +200,46 @@ We provide two , to handle production and development:
   
   At the end of parameter, after the `#`, fill it with `to` session name
 </details>
+
+
+# Troubleshoot
+
+### Cloning takes a lot of time
+`Cloning spec repo 'cocoapods' from 'https://github.com/CocoaPods/Specs.git'`
+
+If the cloning process take a lot of time / forever. You can use this command to install the pod :
+
+`pod install --verbose --no-repo-update`
+
+
+### Failed to clone (authentication problem)
+If you fail to clone caused by authentication problem, you can solve it by following this [link](https://stackoverflow.com/questions/68775869/support-for-password-authentication-was-removed-please-use-a-personal-access-to/68781050#68781050)
+
+### Minimum target
+`Specs satisfying the ‘DialVideoCall’ dependency were found, but they required a higher minimum deployment target.`
+
+
+If this problem appear, make sure that your minimum `Podfile`, `Project Deployment Target` and `Pods Deployment Target` is iOS 12.1
+
+### Bitcode Error
+`'/Users/macbookpro2019/Documents/Cahya/iOS/dependencies/DialVideoCall/Example/Pods/GoogleWebRTC/Frameworks/frameworks/WebRTC.framework/WebRTC' does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target. file '/Users/macbookpro2019/Documents/Cahya/iOS/dependencies/DialVideoCall/Example/Pods/GoogleWebRTC/Frameworks/frameworks/WebRTC.framework/WebRTC' for architecture arm64`
+
+In case this problem appear, you can see this table below
+
+| Location | Bitcode |
+| -------- | ------ |
+| Project {ProjectName] | Enable |
+| Targets {ProjectName} | Disable |
+| Targets {ProjectName}_Tests | Disable |
+| Targets {ProjectName}_UI_Tests | Disable |
+| Project Pods |  Enable |
+| Targets DialVideoCall | Disable |
+| Targets DialVideoCall-DialVideoCall | Disable |
+| Targets GoogleWebRTC | Disable |
+
+
+And do the following steps until all location from the table configured:
+1. Open the `Location` configuration based on the table
+2. Go to `Build Settings`
+3. Find `Enable Bitcode` under `Build Option`
+4. Set `Enable Bitcode` based on the table
