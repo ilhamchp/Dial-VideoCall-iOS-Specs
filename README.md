@@ -102,22 +102,6 @@ func userNotificationCenter(
 }
 ```
 
-Handle incoming video call on user tap notification
-```swift
-func application(
-    _ application: UIApplication,
-    didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?
-) -> Bool {
-    guard let options = launchOptions,
-      let remoteNotif = options[UIApplication.LaunchOptionsKey.remoteNotification] as? [String: Any] else {return true}
-    let aps = remoteNotif["aps"] as? [String: Any]
-    if let sessionFrom = aps!["sessionFrom"] as? String, let sessionTo = aps!["sessionTo"] as? String {
-        goToVcallPage(callData: VideoCallModel(from: sessionFrom, to: sessionTo))
-    }
-    return true
-}
-```
-
 ### Step 4. Process Video Call Data from AppDelegate on ViewController
 On your `ViewController` add some code like example class below :
 
